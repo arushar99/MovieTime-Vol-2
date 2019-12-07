@@ -1,0 +1,338 @@
+﻿
+@using MovieTime_Vol_2.Models
+@model MoviesModel
+
+
+@{
+
+    Dictionary<int, string> genres_names = new Dictionary<int, string>();
+    genres_names[28] = "Action";
+    genres_names[12] = "Adventure";
+    genres_names[16] = "Animation";
+    genres_names[35] = "Comedy";
+    genres_names[80] = "Crime";
+    genres_names[99] = "Documentary";
+    genres_names[18] = "Drama";
+    genres_names[10751] = "Family";
+    genres_names[14] = "Fantasy";
+    genres_names[36] = "History";
+    genres_names[27] = "Horror";
+    genres_names[10402] = "Music";
+    genres_names[9648] = "Mystery";
+    genres_names[10749] = "Romance";
+    genres_names[878] = "Science Fiction";
+    genres_names[10770] = "TV Movie";
+    genres_names[53] = "Thriller";
+    genres_names[10752] = "War";
+    genres_names[37] = "Western";
+}
+<div class="container">
+    <h3> @ViewBag.Title</h3>
+    @{
+        int i;
+        var Movies = Model.Movies.ToList();
+
+
+        @Styles.Render("~/Content/Site.css")
+
+        int j = 0;
+        i = 0;
+        if (Movies.Count == 1)
+        {
+
+
+            <div class="card sm-6" style="max-width: 400px;">
+                <a href="@Url.Action("GetMovieInformation", "Movie", new { id = @Movies[i].Id })">
+                    <img class="card-img-top" src="@Movies[i].Poster_path" alt="Card image cap" width="180px" height="360px">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="@Url.Action("GetMovieInformation", "Movie", new {id =  @Movies[i].Id })">@Movies[i].Title </a>
+                        <span class="card-text text-right">
+                            @if (Model.Watchlist != null)
+                            {
+                                <div class="btn-group">
+
+                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Add
+                                    </button>
+                                    <div class="dropdown-menu">
+
+                                        @{
+                                            j = 0;
+                                            var Names = Model.Watchlist.ToList();
+                                            string str = "";
+                                            if (Names != null)
+                                            {
+                                                using (Html.BeginForm("AddToMovieWatchlist", "Movie", FormMethod.Get))
+
+                                                {
+                                                    while (j < Names.Count)
+                                                    {
+                                                        <a class="dropdown-item" href="@Url.Action("AddToMovieWatchlist", "Movie", new { id = @Movies[i].Id, title = @Movies[i].Title, watchlistname = @Names[j].WatchlistName, release_date=@Movies[i].Release_date })">@Names[j++].WatchlistName</a>
+
+
+                                                    }
+                                                }
+                                            }
+                                        }
+
+
+                                    </div>
+                                </div>
+                            }
+
+                        </span>
+                    </h5>
+                    <p class="card-text"> Popularity : @Movies[i].Popularity</p>
+                    @{
+                        try
+                        {
+
+                            var x = Movies[i].Genre_ids.ToList();
+                            int ids = 0;
+                            while (ids < x.Count)
+                            {
+                                <span class="card-text">
+                                    | @genres_names[@x[ids++]] |</span">
+                                }
+                            }
+                            catch { }
+                    }
+
+            </div>
+
+        </div>
+
+
+    }
+
+    else
+    {
+
+
+        i = 0;
+        while (i < Movies.Count)
+        {
+            <div class="card-deck" style="padding-top:10px;">
+
+                @if ((i < Movies.Count) && !Movies[i].Id.IsEmpty())
+                {
+                    <div class="card sm-6">
+                        <a href="@Url.Action("GetMovieInformation", "Movie", new { id = @Movies[i].Id })">
+                            <img class="card-img-top" src="@Movies[i].Poster_path" alt="Card image cap" width="180px" height="360px">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="@Url.Action("GetMovieInformation", "Movie", new { id = @Movies[i].Id })">@Movies[i].Title </a>
+                                <span class="card-text text-right">
+                                    @if (Model.Watchlist != null)
+                                    {
+                                        <div class="btn-group">
+
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Add
+                                            </button>
+                                            <div class="dropdown-menu">
+
+                                                @{
+                                                    j = 0;
+                                                    var Names = Model.Watchlist.ToList();
+
+                                                    if (Names != null)
+                                                    {
+
+
+                                                        while (j < Names.Count)
+                                                        {
+                                                            <a class="dropdown-item" href="@Url.Action("AddToMovieWatchlist", "Movie", new { id = @Movies[i].Id, title = @Movies[i].Title, watchlistname = @Names[j].WatchlistName, release_date = @Movies[i].Release_date })">@Names[j++].WatchlistName</a>
+
+                                                        }
+
+
+                                                    }
+                                                }
+
+
+                                            </div>
+                                        </div>
+                                    }
+                                </span>
+                            </h5>
+                            <p class="card-text"> Popularity : @Movies[i].Popularity</p>
+
+                            <p class="card-text"> Release Date : @Movies[i].Release_date</p>
+                            @*<p class="card-text">@Movies[i].Overview</p>*@
+                            @{
+                                try
+                                {
+
+                                    var x = Movies[i].Genre_ids.ToList();
+                                    int ids = 0;
+                                    while (ids < x.Count)
+                                    {
+                                        <span class="card-text">
+                                            | @genres_names[@x[ids++]] |</span">
+                                        }
+                                    }
+                                    catch { }
+                            }
+
+                    </div>
+                  
+                </div>
+                i++;
+            }
+
+
+                @if ((i < Movies.Count) && !Movies[i].Id.IsEmpty())
+                {
+                    <div class="card sm-6" style="max-width: 450px;">
+                        <a href="@Url.Action("GetMovieInformation", "Movie", new { id = @Movies[i].Id })">
+                            <img class="card-img-top" src="@Movies[i].Poster_path" alt="Card image cap" width="180px" height="360px">
+                        </a>
+                        <div class="card-body">
+
+                            <h5 class="card-title">
+                                <a href="@Url.Action("GetMovieInformation", "Movie", new { id = @Movies[i].Id })">@Movies[i].Title </a>
+                                <span class="card-text text-right">
+                                    @if (Model.Watchlist != null)
+                                    {
+                                        <div class="btn-group">
+
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Add
+                                            </button>
+                                            <div class="dropdown-menu">
+
+                                                @{
+                                                    j = 0;
+                                                    var Names = Model.Watchlist.ToList();
+
+                                                    if (Names != null)
+                                                    {
+
+
+                                                        while (j < Names.Count)
+                                                        {
+                                                            <a class="dropdown-item" href="@Url.Action("AddToMovieWatchlist", "Movie", new { id = @Movies[i].Id, title = @Movies[i].Title, watchlistname = @Names[j].WatchlistName, release_date=@Movies[i].Release_date })">@Names[j++].WatchlistName</a>
+
+                                                        }
+
+
+                                                    }
+                                                }
+
+
+                                            </div>
+                                        </div>
+                                    }
+
+                                </span>
+                            </h5>
+                            <p class="card-text"> Popularity : @Movies[i].Popularity</p>
+                            <p class="card-text"> Release Date : @Movies[i].Release_date</p>
+                            @{
+                                try
+                                {
+
+                                    var x = Movies[i].Genre_ids.ToList();
+                                    int ids = 0;
+                                    while (ids < x.Count)
+                                    {
+                                        <span class="card-text">
+                                            | @genres_names[@x[ids++]] |</span">
+                                        }
+                                    }
+                                    catch { }
+                            }
+
+                            @*<p class="card-text">@Movies[i].Overview</p>*@
+
+
+                    </div>
+                   
+                </div>
+                i++;
+
+            }
+                @if ((i < Movies.Count) && !Movies[i].Id.IsEmpty())
+                {
+                    <div class="card sm-6" style="max-width: 450px;">
+                        <a href="@Url.Action("GetMovieInformation", "Movie", new { id = @Movies[i].Id })">
+                            <img class="card-img-top" src="@Movies[i].Poster_path" alt="Card image cap" height="360px" width="180px">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="@Url.Action("GetMovieInformation", "Movie", new {id = @Movies[i].Id })">@Movies[i].Title </a>
+                                <span class="card-text text-right">
+                                    @if (Model.Watchlist != null)
+                                    {
+                                        <div class="btn-group">
+
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Add
+                                            </button>
+                                            <div class="dropdown-menu">
+
+                                                @{
+                                                    j = 0;
+                                                    var Names = Model.Watchlist.ToList();
+
+                                                    if (Names != null)
+                                                    {
+
+
+                                                        while (j < Names.Count)
+                                                        {
+
+                                                            <a class="dropdown-item" href="@Url.Action("AddToMovieWatchlist", "Movie", new { id = @Movies[i].Id, title = @Movies[i].Title, watchlistname = @Names[j].WatchlistName, release_date=@Movies[i].Release_date })">@Names[j++].WatchlistName</a>
+
+                                                        }
+
+
+                                                    }
+                                                }
+
+
+                                            </div>
+                                        </div>
+                                    }
+
+                                </span>
+                            </h5>
+
+                            <p class="card-text"> Popularity : @Movies[i].Popularity</p>
+                            <p class="card-text"> Release Date : @Movies[i].Release_date</p>
+                            @{
+                                try
+                                {
+
+                                    var x = Movies[i].Genre_ids.ToList();
+                                    int ids = 0;
+                                    while (ids < x.Count)
+                                    {
+                                        <span class="card-text">
+                                            | @genres_names[@x[ids++]] |</span">
+                                        }
+                                    }
+                                    catch { }
+                            }
+
+                            @*<p class="card-text">@Movies[i++].Overview</p>*@
+                    </div>
+             
+                </div>
+                i++;
+            }
+            else
+            {
+                i++;
+            }
+            </div>
+
+        }
+    }
+    }
+</div>
+

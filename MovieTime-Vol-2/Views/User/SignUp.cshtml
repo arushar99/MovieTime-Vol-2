@@ -1,0 +1,94 @@
+﻿
+@model MovieTime_Vol_2.Models.UserTable
+@{
+    ViewBag.Title = "Sign Up";
+
+}
+
+
+
+<div class="container">
+    <div>
+        <h2>@ViewBag.Title</h2>
+     
+
+        <h5> @ViewBag.Message</h5>
+
+    </div>
+    <div>
+
+        @using (Html.BeginForm("SignUp", "User", FormMethod.Post))
+        {
+
+            <form class="form-inline">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.Fname)
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(model => model.Fname, new { @class = "form-control", placeholder = "First Name" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.Lname)
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(model => model.Lname, new { @class = "form-control", placeholder = "Last Name" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.DOB)
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.EditorFor(model => model.DOB, new { @class = "form-control datepicker" })
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.UserID)
+                            <span class="alert-danger">*</span>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(model => model.UserID, new { @class = "form-control", placeholder = "User", required="required" })
+                            @Html.ValidationMessageFor(model => model.UserID)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            @Html.LabelFor(model => model.Password)
+                            <span class="alert-danger"> *</span>
+                        </div>
+                        <div class="col-sm-4">
+                            @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "Password", type = "password", required="required" })
+                            @Html.ValidationMessageFor(model => model.Password)
+
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
+                    </div>
+
+                </div>
+
+
+
+            </form>
+        }
+
+
+    </div>
+</div>
+

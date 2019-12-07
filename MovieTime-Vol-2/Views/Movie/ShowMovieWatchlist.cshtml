@@ -1,0 +1,34 @@
+﻿
+@model IEnumerable<MovieTime_Vol_2.Models.MovieWatchlist>
+
+<div style="padding-top:10px;">
+    <th>Title</th>
+    <th></th>
+
+    <table class="table">
+
+
+        @{
+
+            var x = Model.ToList();
+            int i = 0;
+            while (i < x.Count)
+            {
+
+                if (x[i].Title != null)
+                {
+                    <tr>
+
+                        <td>
+                            <a href="@Url.Action("GetMovieInformation", "Movie", new {id = x[i].MovieID, watchlist=x[i].Title })"> @x[i].Title </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("RemoveMovieFromYourList", "Movie", new { id = x[i].MovieID,title=x[i].Title, watchlistname=x[i].WatchlistName, release_date=x[i++].Release_date})">Remove</a>
+                        </td>
+                    </tr>
+                }
+                else { i = i + 1; }
+            }
+        }
+    </table>
+</div>

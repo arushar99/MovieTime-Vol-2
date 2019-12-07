@@ -1,0 +1,65 @@
+﻿
+@model MovieTime_Vol_2.Models.MovieModel
+
+@{
+    ViewData["Title"] = "GetMovieInformation";
+}
+
+
+
+@if (Model != null)
+{
+
+
+    <div class="card mb-3" style="max-width: 1250px;">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="@Model.Poster_path" class="card-img" alt="no image">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Title</h5>
+                    <p class="card-text">@Model.Popularity</p>
+                    <p class="card-text">@Model.Release_date</p>
+                    <p class="card-text">@Model.Overview</p>
+
+
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card-body">
+                    <h5 class="card-title">Links:</h5>
+                    @{
+                        var x = Model.VideoNames.ToList();
+                        int p = 0;
+                        while (p < x.Count)
+                        {
+
+                            <p class="card-text">@Model.VideoNames[p] : <a href="https://www.youtube.com/watch?v=@Model.VideoLinks[p++]" target="_blank">Link</a></p>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card-body">
+                <h5 class="card-title">Reviews:</h5>
+                @{
+                    x = Model.MovieReview.Values.ToList();
+                    p = 0;
+                    while (p < x.Count)
+                    {
+
+                        <p class="card-text">@x[p++] </p>
+                    }
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+}
+

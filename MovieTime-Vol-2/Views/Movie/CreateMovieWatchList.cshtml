@@ -1,0 +1,43 @@
+﻿
+@model MovieTime_Vol_2.Models.MovieWatchlist
+@{
+    ViewBag.Title = "Create A Watchlist";
+
+}
+
+<div class="container" style="margin:10px;">
+    <div>
+        <h2>@ViewBag.Title</h2>
+        <h4>@ViewBag.Message</h4>
+
+    </div>
+    <div class="justify-content-center">
+
+        @using (Html.BeginForm("CreateMovieWatchlist", "Movie", FormMethod.Post))
+        {
+
+            <form class="form-inline" style="margin-top:15px;">
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.WatchlistName)
+
+                        </div>
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(model => model.WatchlistName, new { @class = "form-control", placeholder = "Watchlist Name" })
+                            @Html.ValidationMessageFor(model => model.WatchlistName)
+
+                        </div>
+                    </div>
+                </div>
+
+
+                        <button type="submit" class="btn btn-primary btn-lg">Create</button>
+
+            </form>
+        }
+
+
+    </div>
+</div>

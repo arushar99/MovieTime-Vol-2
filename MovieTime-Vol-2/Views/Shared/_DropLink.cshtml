@@ -1,0 +1,106 @@
+﻿
+
+@using MovieTime_Vol_2.Models
+@model MoviesModel
+
+
+
+@{
+
+    Dictionary<int, string> genres_names = new Dictionary<int, string>();
+    genres_names[28] = "Action";
+    genres_names[12] = "Adventure";
+    genres_names[16] = "Animation";
+    genres_names[35] = "Comedy";
+    genres_names[80] = "Crime";
+    genres_names[99] = "Documentary";
+    genres_names[18] = "Drama";
+    genres_names[10751] = "Family";
+    genres_names[14] = "Fantasy";
+    genres_names[36] = "History";
+    genres_names[27] = "Horror";
+    genres_names[10402] = "Music";
+    genres_names[9648] = "Mystery";
+    genres_names[10749] = "Romance";
+    genres_names[878] = "Science Fiction";
+    genres_names[10770] = "TV Movie";
+    genres_names[53] = "Thriller";
+    genres_names[10752] = "War";
+    genres_names[37] = "Western";
+}
+
+<div class="dropdown">
+
+
+    @using (Html.BeginForm("FilterCatergory", "Movie", FormMethod.Post))
+    {
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filter
+        </button>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+            <a class="dropdown-item" href="@Url.Action("FilterCategory", "Movie", new { @class="dropdown-item", id = 1 })">Popularity </a>
+
+
+            @{Model.FilterCatergory = 1;} @* Only do this here if you did NOT do it in the controller *@
+            @Html.HiddenFor(m => m.FilterCatergory) @* This will make it so that Attribute = "whatever" when the page submits to the controller *@
+            <a class="dropdown-item" href="@Url.Action("FilterCategory", "Movie", new {  @class="dropdown-item", id = 2 })">Alphabetically </a>
+
+            @{Model.FilterCatergory = 2;}
+            @Html.HiddenFor(m => m.FilterCatergory)
+            <a class="dropdown-item" href="@Url.Action("FilterCategory", "Movie", new {  @class="dropdown-item", id = 3 })">Release Date </a>
+
+            @{Model.FilterCatergory = 3;}
+            @Html.HiddenFor(m => m.FilterCatergory)
+
+
+        </div>
+
+    }
+
+</div>
+
+
+
+@if (Session["username"]!= null)
+{
+    <div class="dropdown">
+
+
+
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Watchlists
+        </button>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            @{
+                int j = 0;
+                var Names = Model.Watchlist.ToList();
+
+                if (Names != null)
+                {
+                    using (Html.BeginForm("ShowMovieWatchlist", "Movie", FormMethod.Get))
+
+                    {
+                        while (j < Names.Count)
+                        {
+                            <a class="dropdown-item" href="@Url.Action("ShowMovieWatchlist", "Movie", new { id = @Names[j].WatchlistName})">@Names[j++].WatchlistName</a>
+
+
+                        }
+
+
+                    }
+                }
+            }
+
+            <a class="dropdown-item" href="@Url.Action("CreateMovieWatchlist", "Movie")">Create Watchlist...</a>
+
+        </div>
+
+
+
+    </div>
+}
+

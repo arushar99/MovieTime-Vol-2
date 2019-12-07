@@ -1,0 +1,82 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body style="padding:0px !important;">
+    <div class="container">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="@Url.Action("Index", "Movie", new { id = 1 })">MovieTime</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item" id="option1">
+                        <a class="nav-link" href="@Url.Action("Index", "Movie", new { id = 1 })">Currently Playing Movies</a>
+                    </li>
+                    <li class="nav-item" id="option2">
+                        <a class="nav-link" href="@Url.Action("GetTopRatedMovies", "Movie", new { id = 1 })">Top Rated Movies</a>
+                    </li>
+                    <li class="nav-item" id="option3">
+                        <a class="nav-link" href="@Url.Action("GetPopularMovies", "Movie", new { id = 1 })">Popular Movies</a>
+                    </li>
+                    <li class="nav-item" id="option3">
+                        <a class="nav-link" href="@Url.Action("GetUpComingMovies", "Movie", new { id = 1 })">Upcoming Movies</a>
+                    </li>
+                </ul>
+                <ul class="nav justify-content-end">
+
+                 
+                    @if (Session["username"] == null)
+                    {
+
+                        <li class="nav-link">@Html.ActionLink("Login", "Login", "User")</li>
+
+
+                        <li class="nav-link">@Html.ActionLink("Sign Up", "SignUp", "User")</li>
+
+                    }
+                    @if (Session["username"]  != null)
+                    {
+
+
+                        <li class="nav-link"> @Html.ActionLink("Sign Out", "SignOut", "User")</li>
+
+                    }
+
+                </ul>
+        </nav>
+
+    </div>
+    
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+
+    </div>
+    <div class="container">
+        <footer>
+            <p>&copy; @DateTime.Now.Year - MovieTime</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</html>
